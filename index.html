@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BitExpert</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+  <!-- Header -->
+  <header class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+    <h1 id="site-title" class="text-2xl font-bold text-green-500">BitExpert</h1>
+    <nav class="space-x-4">
+      <a href="#" id="home-link" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+      <a href="register.html" id="register-link" class="text-gray-700 hover:text-blue-600 font-medium">Register</a>
+      <a href="profile.html" id="profile-link" class="text-gray-700 hover:text-blue-600 font-medium">Profile</a>
+      <a href="login.html" id="login-link" class="bg-green-400 text-white px-3 py-1 rounded-lg font-bold hover:bg-green-500">Login_Sign</a>
+    </nav>
+    <button id="lang-toggle" class="text-green-500 bg-transparent border-2 border-green-500 px-4 py-1 rounded-lg">
+      العربية
+    </button>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="text-center py-12 bg-gradient-to-r from-blue-100 to-yellow-100 px-4">
+    <h2 id="hero-title" class="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">
+      
+    </h2>
+    <div class="flex flex-wrap justify-center gap-3 mt-4">
+      <input type="text" placeholder="Search for Spa & Salons" id="search-input"
+        class="px-4 py-2 border border-gray-300 rounded-md w-60" />
+      <button id="search-btn" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">🔍</button>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="py-10 px-4 max-w-screen-xl mx-auto">
+    <h2 id="services-title" class="text-3xl font-bold text-center mb-8">Popular Services</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+
+      <!-- Repeatable Service Card Example -->
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="haircut.png" alt="Spa & Salon" class="w-16 h-16 mb-3 object-contain" />
+        <a href="spa.html"><p id="spa-service" class="text-sm font-medium">Spa & Salon</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="hotel.png" alt="Hotel" class="w-16 h-16 mb-3 object-contain" />
+        <a href="hotel.html"><p id="hotel-service" class="text-sm font-medium">Hotel</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="wedding.png" alt="Wedding" class="w-16 h-16 mb-3 object-contain" />
+        <a href="wedding.html"><p id="wedding-service" class="text-sm font-medium">Wedding</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="healthcare.png" alt="Doctors" class="w-16 h-16 mb-3 object-contain" />
+        <a href="doctor.html"><p id="doctor-service" class="text-sm font-medium">Doctors</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="education.png" alt="Education" class="w-16 h-16 mb-3 object-contain" />
+        <a href="education.html"><p id="education-service" class="text-sm font-medium">Education</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="lease.png" alt="Real Estate" class="w-16 h-16 mb-3 object-contain" />
+        <a href="realestate.html"><p id="real-estate-service" class="text-sm font-medium">Real Estate</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="laptop.png" alt="Laptop Services" class="w-16 h-16 mb-3 object-contain" />
+        <a href="laptopservices.html"><p id="laptop-service" class="text-sm font-medium">Laptop Services</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="cctv.png" alt="CCTV" class="w-16 h-16 mb-3 object-contain" />
+        <a href="cctv.html"><p id="cctv-service" class="text-sm font-medium">CCTV</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="circuit-board.png" alt="Electronics" class="w-16 h-16 mb-3 object-contain" />
+        <a href="electronics.html"><p class="text-sm font-medium">Electronics</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="electronics.png" alt="Service & Repair" class="w-16 h-16 mb-3 object-contain" />
+        <a href="servicess.html"><p class="text-sm font-medium">Service & Repair</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="carpenter.png" alt="Carpenter" class="w-16 h-16 mb-3 object-contain" />
+        <a href="carpenter.html"><p class="text-sm font-medium">Carpenter</p></a>
+      </div>
+
+      <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl shadow-sm hover:shadow-md">
+        <img src="dentist.png" alt="Dentists" class="w-16 h-16 mb-3 object-contain" />
+        <a href="#"><p class="text-sm font-medium">Dentists</p></a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm py-6 bg-gray-200 text-gray-600 mt-8">
+    <span id="footer-text">© 2025 ServiceFinder. All rights reserved.</span>
+  </footer>
+
+  <!-- Language and Search Script -->
+  <script>
+    const translations = {
+      en: {
+        siteTitle: "BitExpert",
+        homeLink: "Home",
+        registerLink: "Register",
+        profileLink: "Profile",
+        loginLink: "Login_Sign",
+        heroTitle: "Search across 5.9 Crore+ Products & Services",
+        searchPlaceholder: "Search for Spa & Salons",
+        servicesTitle: "Popular Services",
+        spaService: "Spa & Salon",
+        hotelService: "Hotel",
+        weddingService: "Wedding",
+        doctorService: "Doctors",
+        educationService: "Education",
+        realEstateService: "Real Estate",
+        laptopService: "Laptop Services",
+        cctvService: "CCTV",
+        footerText: "© 2025 ServiceFinder. All rights reserved.",
+        switchLang: "العربية"
+      },
+      ar: {
+        siteTitle: "خدمة البحث",
+        homeLink: "الرئيسية",
+        registerLink: "تسجيل",
+        profileLink: "الملف الشخصي",
+        loginLink: "تسجيل الدخول",
+        heroTitle: "ابحث عن أكثر من 5.9 مليون منتج وخدمة",
+        searchPlaceholder: "ابحث عن صالونات التجميل",
+        servicesTitle: "الخدمات الشعبية",
+        spaService: "صالون & سبا",
+        hotelService: "فندق",
+        weddingService: "زواج",
+        doctorService: "الأطباء",
+        educationService: "التعليم",
+        realEstateService: "العقارات",
+        laptopService: "خدمات الكمبيوتر المحمول",
+        cctvService: "CCTV",
+        footerText: "© 2025 خدمة البحث. جميع الحقوق محفوظة.",
+        switchLang: "English"
+      }
+    };
+
+    const searchInput = document.getElementById("search-input");
+    const serviceCards = document.querySelectorAll(".grid > div");
+    const langToggle = document.getElementById("lang-toggle");
+    let currentLang = localStorage.getItem("lang") || "en";
+
+    function applyLanguage(lang) {
+      const t = translations[lang];
+      localStorage.setItem("lang", lang);
+      document.getElementById("site-title").textContent = t.siteTitle;
+      document.getElementById("home-link").textContent = t.homeLink;
+      document.getElementById("register-link").textContent = t.registerLink;
+      document.getElementById("profile-link").textContent = t.profileLink;
+      document.getElementById("login-link").textContent = t.loginLink;
+      document.getElementById("hero-title").textContent = t.heroTitle;
+      document.getElementById("search-input").placeholder = t.searchPlaceholder;
+      document.getElementById("services-title").textContent = t.servicesTitle;
+      document.getElementById("spa-service").textContent = t.spaService;
+      document.getElementById("hotel-service").textContent = t.hotelService;
+      document.getElementById("wedding-service").textContent = t.weddingService;
+      document.getElementById("doctor-service").textContent = t.doctorService;
+      document.getElementById("education-service").textContent = t.educationService;
+      document.getElementById("real-estate-service").textContent = t.realEstateService;
+      document.getElementById("laptop-service").textContent = t.laptopService;
+      document.getElementById("cctv-service").textContent = t.cctvService;
+      document.getElementById("footer-text").textContent = t.footerText;
+      langToggle.textContent = t.switchLang;
+      currentLang = lang;
+    }
+
+    langToggle.addEventListener("click", () => {
+      const newLang = currentLang === "en" ? "ar" : "en";
+      applyLanguage(newLang);
+    });
+
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.toLowerCase();
+      serviceCards.forEach(card => {
+        const text = card.querySelector("p").textContent.toLowerCase();
+        card.style.display = text.includes(query) ? "flex" : "none";
+      });
+    });
+
+    applyLanguage(currentLang);
+  </script>
+
+  <!-- Firebase Setup -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBfIlfxeHGvAvN2mGk_vZbBRoG4iufi4g4",
+      authDomain: "justdial-d6b67.firebaseapp.com",
+      projectId: "justdial-d6b67",
+      storageBucket: "justdial-d6b67.appspot.com",
+      messagingSenderId: "1047591955834",
+      appId: "1:1047591955834:web:5d7a93b4b9459a69003ac3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    console.log("Firebase initialized");
+ async function updateHeroWithUserCount() {
+    try {
+      const snapshot = await getDocs(collection(db, "email"));
+      let userCount = 0;
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        if (data.email && typeof data.email === "string" && data.email.includes("@")) {
+          userCount++;
+        }
+      });
+
+      const heroTitle = document.getElementById("hero-title");
+      heroTitle.textContent = `Trusted by ${userCount}+ users across 5.9 Crore+ Products & Services`;
+    } catch (error) {
+      console.error("Error counting users with email:", error);
+    }
+  }
+
+  updateHeroWithUserCount();
+  </script>
+</body>
+</html>

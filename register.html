@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Business Registration</title>
+  <style>
+    :root {
+      --primary: #55ff00;
+      --text-dark: #1f2937;
+      --bg-light: #f3f4f6;
+      --bg-white: #ffffff;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-light);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      direction: ltr;
+    }
+
+    .form-container {
+      background: var(--bg-white);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .step {
+      display: none;
+      animation: fade 0.4s ease;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 0.7rem;
+      width: 100%;
+      border: none;
+      border-radius: 0.5rem;
+      background: var(--primary);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2ee600;
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="form-container">
+     <center><p>ADD your Business here</p></center>
+    <button id="langToggleBtn" onclick="toggleLanguage()" style="margin-bottom: 1rem;">العربية</button>
+    <form id="stepForm">
+      <div class="step active">
+        <label for="businessName">Business Name</label>
+        <input type="text" id="businessName" name="businessName" required>
+        <button type="button" onclick="nextStep()">Next</button>
+        <hr>
+        <button type="button" onclick="previous()">Previous</button>
+      </div>
+      <div class="step">
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+          <option value="">Select</option>
+          <option value="Spa & Salon">Spa & Salon</option>
+          <option value="Hotel">Hotel</option>
+          <option value="Doctor">Doctors</option>
+          <option value="Realestate">Real Estate</option>
+          <option value="Education">Education</option>
+          <option value="Event Management">Event Management</option>
+           <option value="Laptop services">Laptop services</option>
+            <option value="CCTV">CCTV</option>
+             <option value="Electronics">Electronics</option>
+              <option value="Services and repair">services and repair</option>
+               <option value="Carpenter">Carpenter</option>
+        </select>
+        <button type="button" onclick="nextStep()">Next</button>
+        <hr>
+        <button type="button" onclick="previous()">Previous</button>
+      </div>
+      <div class="step">
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" required>
+        <button type="button" onclick="nextStep()">Next</button>
+        <hr>
+        <button type="button" onclick="previous()">Previous</button>
+      </div>
+      <div class="step">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" required>
+        <button type="button" onclick="nextStep()">Next</button>
+        <hr>
+        <button type="button" onclick="previous()">Previous</button>
+      </div>
+      <div class="step">
+        <label for="contact">Contact</label>
+        <input type="tel" id="contact" name="contact" required>
+        <button type="button" onclick="nextStep()">Next</button>
+        <hr>
+        <button type="button" onclick="previous()">Previous</button>
+      </div>
+      <div class="step">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email">
+        <button type="button" onclick="nextStep()">Next</button>
+        <hr>
+        <button type="button" onclick="previous()">Previous</button>
+      </div>
+      <div class="step">
+        <label for="website">Website</label>
+        <input type="url" id="website" name="website">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBfIlfxeHGvAvN2mGk_vZbBRoG4iufi4g4",
+      authDomain: "justdial-d6b67.firebaseapp.com",
+      projectId: "justdial-d6b67",
+      storageBucket: "justdial-d6b67.appspot.com",
+      messagingSenderId: "1047591955834",
+      appId: "1:1047591955834:web:5d7a93b4b9459a69003ac3"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let currentStep = 0;
+    const steps = document.querySelectorAll(".step");
+
+    function nextStep() {
+      const input = steps[currentStep].querySelector("input, select");
+      if (!input.checkValidity()) {
+        input.reportValidity();
+        return;
+      }
+      steps[currentStep].classList.remove("active");
+      currentStep++;
+      if (steps[currentStep]) {
+        steps[currentStep].classList.add("active");
+      }
+    }
+
+    function previous() {
+      steps[currentStep].classList.remove("active");
+      currentStep--;
+      if (steps[currentStep]) {
+        steps[currentStep].classList.add("active");
+      }
+    }
+
+    document.getElementById("stepForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const business = {
+        name: document.getElementById("businessName").value,
+        category: document.getElementById("category").value,
+        address: document.getElementById("address").value,
+        description: document.getElementById("description").value,
+        contact: document.getElementById("contact").value,
+        email: document.getElementById("email").value,
+        website: document.getElementById("website").value,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      try {
+        await db.collection("businesses").add(business);
+        alert("Business submitted successfully!");
+        document.getElementById("stepForm").reset();
+        steps.forEach(s => s.classList.remove("active"));
+        currentStep = 0;
+        steps[0].classList.add("active");
+      } catch (err) {
+        alert("Error saving to Firestore");
+        console.error(err);
+      }
+    });
+
+    let currentLanguage = 'en';
+
+    const translations = {
+      en: {
+        businessName: "Business Name",
+        category: "Category",
+        address: "Address",
+        description: "Description",
+        contact: "Contact",
+        email: "Email",
+        website: "Website",
+        select: "Select",
+        next: "Next",
+        previous: "Previous",
+        submit: "Submit",
+        categories: {
+          spa: "Spa & Salon",
+          hotel: "Hotel",
+          doctor: "Doctors",
+          realestate: "Real Estate",
+          education: "Education",
+          events: "Event Management"
+        }
+      },
+      ar: {
+        businessName: "اسم النشاط",
+        category: "الفئة",
+        address: "العنوان",
+        description: "الوصف",
+        contact: "الاتصال",
+        email: "البريد الإلكتروني",
+        website: "الموقع الإلكتروني",
+        select: "اختر",
+        next: "التالي",
+        previous: "السابق",
+        submit: "إرسال",
+        categories: {
+          spa: "منتجع وصالون",
+          hotel: "فندق",
+          doctor: "أطباء",
+          realestate: "عقارات",
+          education: "التعليم",
+          events: "تنظيم الفعاليات"
+        }
+      }
+    };
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+      const t = translations[currentLanguage];
+
+      document.body.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+      document.getElementById("langToggleBtn").textContent = currentLanguage === 'en' ? "العربية" : "English";
+
+      const keys = ["businessName", "category", "address", "description", "contact", "email", "website"];
+      document.querySelectorAll("label").forEach((label, i) => {
+        if (t[keys[i]]) label.textContent = t[keys[i]];
+      });
+
+      document.querySelectorAll("button").forEach((btn) => {
+        if (btn.type === "submit") btn.textContent = t.submit;
+        else if (btn.textContent.toLowerCase().includes("next") || btn.textContent.includes("التالي")) btn.textContent = t.next;
+        else if (btn.textContent.toLowerCase().includes("previous") || btn.textContent.includes("السابق")) btn.textContent = t.previous;
+      });
+
+      const select = document.getElementById("category");
+      select.options[0].text = t.select;
+
+      const categoryKeys = ["spa", "hotel", "doctor", "realestate", "education", "events"];
+      for (let i = 1; i <= categoryKeys.length; i++) {
+        const key = categoryKeys[i - 1];
+        select.options[i].value = key;
+        select.options[i].text = t.categories[key];
+      }
+    }
+  </script>
+</body>
+</html>

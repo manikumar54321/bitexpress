@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - ServiceFinder</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9fafb;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #ff6f00;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #374151;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #ff6f00;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .login-button:hover {
+      background-color: #e55d00;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .signup-link a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Sign in</h2>
+    <form action="#" method="post" id="signupForm">
+      <div class="form-group">
+        <label for="email">Email or Mobile</label>
+        <input type="text" id="email" name="email" placeholder="Enter email or mobile" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required>
+      </div>
+
+      <button type="submit" class="login-button">Login</button>
+    </form>
+
+    <div class="signup-link">
+      Don't have an account? <a href="register.html">Sign Up</a>
+    </div>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBfIlfxeHGvAvN2mGk_vZbBRoG4iufi4g4",
+      authDomain: "justdial-d6b67.firebaseapp.com",
+      projectId: "justdial-d6b67",
+      storageBucket: "justdial-d6b67.appspot.com",
+      messagingSenderId: "1047591955834",
+      appId: "1:1047591955834:web:5d7a93b4b9459a69003ac3"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+  
+    // Sign up event
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+  
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+  
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        console.log('Signup successful:', userCredential.user);
+        alert('Signup successful!');
+        // Optionally redirect
+        // window.location.href = "/profile.html";
+      } catch (error) {
+        console.error('Signup failed:', error.message);
+        alert('Signup failed: ' + error.message);
+      }
+    });
+  </script>
+  
+</body>
+</html>

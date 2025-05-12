@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - BitExpert</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .login-container {
+      background: #ffffff;
+      padding: 2.5rem 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      animation: fadeInUp 0.7s ease-out both;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #00aa66; /* Saudi green variant */
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: border 0.2s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #00aa66;
+      outline: none;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #00aa66;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .login-button:hover {
+      background-color: #008f55;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    .signup-link a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Optional decorative background circles */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 170, 102, 0.1);
+      z-index: -1;
+    }
+
+    .circle.small {
+      width: 120px;
+      height: 120px;
+      top: 20%;
+      left: 10%;
+    }
+
+    .circle.large {
+      width: 200px;
+      height: 200px;
+      bottom: 15%;
+      right: 10%;
+    }
+  </style>
+</head>
+<body>
+  <div class="circle small"></div>
+  <div class="circle large"></div>
+
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email or Mobile</label>
+        <input type="text" id="email" name="email" placeholder="Enter email or mobile" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required>
+      </div>
+
+      <button type="submit" class="login-button">Login</button>
+    </form>
+
+    <div class="signup-link">
+      Don't have an account? <a href="signin.html">Sign Up</a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyBfIlfxeHGvAvN2mGk_vZbBRoG4iufi4g4",
+      authDomain: "justdial-d6b67.firebaseapp.com",
+      projectId: "justdial-d6b67",
+      storageBucket: "justdial-d6b67.appspot.com",
+      messagingSenderId: "1047591955834",
+      appId: "1:1047591955834:web:5d7a93b4b9459a69003ac3"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+  
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+  
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+  
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        alert("Login successful!");
+        window.location.href = "/profile.html";
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    });
+  </script>
+</body>
+</html>

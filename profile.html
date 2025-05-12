@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ملف المستخدم - خدماتي</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9fafb;
+      color: #111827;
+    }
+
+    .profile-header {
+      background: linear-gradient(135deg, #d1fae5, #10b981);
+      color: #065f46;
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      border-bottom-left-radius: 1.5rem;
+      border-bottom-right-radius: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    .profile-header img {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      margin-bottom: 1rem;
+    }
+
+    .profile-header h2 {
+      margin: 0.5rem 0 0.25rem;
+      font-size: 1.75rem;
+    }
+
+    .profile-header p {
+      margin: 0;
+      color: #065f46;
+      font-size: 1rem;
+    }
+
+    .section-title {
+      padding: 1rem 2rem;
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: #065f46;
+    }
+
+    .business-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 1rem 2rem 2rem;
+    }
+
+    .business-card {
+      background-color: white;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .business-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .business-card .info {
+      padding: 1rem;
+      flex: 1;
+    }
+
+    .business-card h3 {
+      margin: 0 0 0.25rem;
+      font-size: 1.2rem;
+    }
+
+    .business-card h4 {
+      margin: 0 0 0.5rem;
+      font-size: 1rem;
+      color: #4b5563;
+    }
+
+    .business-card p {
+      margin: 0 0 1rem;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0 1rem 1rem;
+    }
+
+    .btn {
+      flex: 1;
+      text-align: center;
+      padding: 0.5rem;
+      background-color: #10b981;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #059669;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #065f46;
+      color: white;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      border-radius: 0.25rem;
+      margin-top: 0.25rem;
+    }
+
+    /* Floating Add Business Button */
+    .add-business-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #10b981;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .add-business-btn:hover {
+      background-color: #059669;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="profile-header">
+    <img id="profile-pic" src="https://via.placeholder.com/100" alt="صورة المستخدم"/>
+    <h2 id="user-name">جاري التحميل...</h2>
+    <p id="user-email"></p>
+    <!-- Language Toggle Switch -->
+    <div style="position: fixed; top: 1rem; right: 1rem; z-index: 1000;">
+      <button id="lang-toggle" style="padding: 0.5rem 1rem; background-color: #fcfffe; color: rgb(116, 244, 12); border: none; border-radius: 5px; cursor: pointer;">
+        English
+      </button>
+    </div>
+  </div>
+
+  <div class="section-title">نشراتي التجارية</div>
+  <div class="business-grid" id="business-list">
+    <!-- النشرات الخاصة بالمستخدم -->
+  </div>
+
+  <!-- Floating Add Business Button -->
+  <button class="add-business-btn" id="add-business-btn">
+    +
+  </button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyBfIlfxeHGvAvN2mGk_vZbBRoG4iufi4g4",
+      authDomain: "justdial-d6b67.firebaseapp.com",
+      projectId: "justdial-d6b67",
+      storageBucket: "justdial-d6b67.appspot.com",
+      messagingSenderId: "1047591955834",
+      appId: "1:1047591955834:web:5d7a93b4b9459a69003ac3"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+  
+    const translations = {
+      ar: {
+        uploadedBusinesses: "نشراتي التجارية",
+        noBusinesses: "لا يوجد نشرات حتى الآن.",
+        call: "📞 اتصال",
+        whatsapp: "💬 واتساب",
+        edit: "✏️ تعديل",
+        kycVerified: "مصدق KYC",
+        switchLang: "English",
+        user: "مستخدم"
+      },
+      en: {
+        uploadedBusinesses: "My Uploaded Businesses",
+        noBusinesses: "No businesses uploaded yet.",
+        call: "📞 Call",
+        whatsapp: "💬 WhatsApp",
+        edit: "✏️ Edit",
+        kycVerified: "KYC Verified",
+        switchLang: "العربية",
+        user: "User"
+      }
+    };
+  
+    const langToggle = document.getElementById('lang-toggle');
+    let currentLang = localStorage.getItem('lang') || 'ar';
+  
+    function applyLanguage(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  
+      const t = translations[lang];
+      document.querySelector('.section-title').textContent = t.uploadedBusinesses;
+      langToggle.textContent = t.switchLang;
+  
+      translateBusinessCards();
+      localStorage.setItem('lang', lang);
+    }
+  
+    function translateBusinessCards() {
+      const t = translations[currentLang];
+  
+      document.querySelectorAll('.business-card').forEach(card => {
+        const editBtn = card.querySelector('.btn[href*="edit.html"]');
+        const callBtn = card.querySelector('.btn[href^="tel:"]');
+        const whatsappBtn = card.querySelector('.btn[href^="https://wa.me"]');
+        const badge = card.querySelector('.badge');
+  
+        if (editBtn) editBtn.textContent = t.edit;
+        if (callBtn) callBtn.textContent = t.call;
+        if (whatsappBtn) whatsappBtn.textContent = t.whatsapp;
+        if (badge) badge.textContent = t.kycVerified;
+      });
+    }
+  
+    langToggle.addEventListener('click', () => {
+      const newLang = currentLang === 'ar' ? 'en' : 'ar';
+      applyLanguage(newLang);
+    });
+  
+    // Initial Language Setup
+    applyLanguage(currentLang);
+  
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const t = translations[currentLang];
+  
+        document.getElementById('user-name').textContent = user.displayName || t.user;
+        document.getElementById('user-email').textContent = user.email;
+        document.getElementById('profile-pic').src = user.photoURL || "https://via.placeholder.com/100";
+  
+        const q = query(collection(db, "businesses"), where("email", "==", user.email));
+        const snapshot = await getDocs(q);
+  
+        const businessList = document.getElementById("business-list");
+        businessList.innerHTML = '';
+  
+        if (snapshot.empty) {
+          businessList.innerHTML = `<p style='padding:1rem;'>${t.noBusinesses}</p>`;
+          return;
+        }
+  
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const phone = data.contact || '';
+          const whatsappUrl = `https://wa.me/${phone}`;
+          const callUrl = `tel:${phone}`;
+          const kycBadge = data.kycVerified ? `<div class="badge">${t.kycVerified}</div>` : '';
+  
+          businessList.innerHTML += `
+            <div class="business-card">
+              ${data.imageUrl ? `<img src="${data.imageUrl}" alt="${data.name}">` : ''}
+              <div class="info">
+                <h3>${data.name}</h3>
+                <h4>${data.category}</h4>
+                ${kycBadge}
+                <p>${data.description}</p>
+                <p>${data.email}</p>
+              </div>
+              <div class="btn-group">
+                <a class="btn" href="${callUrl}">${t.call}</a>
+                <a class="btn" href="${whatsappUrl}" target="_blank">${t.whatsapp}</a>
+                <a class="btn" href="edit.html?id=${doc.id}">${t.edit}</a>
+                
+
+              </div>
+            </div>
+          `;
+        });
+  
+        translateBusinessCards(); // Ensure translation applies to freshly added content
+      } else {
+        window.location.href = "/login.html";
+      }
+    });
+  
+    // Add Business Button click event
+    document.getElementById('add-business-btn').addEventListener('click', () => {
+      window.location.href = '/register.html'; // Redirect to page to add a new business
+    });
+  </script>
+</body>
+</html>

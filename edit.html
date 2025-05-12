@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Business - ServiceFinder</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fafb;
+      padding: 2rem;
+      color: #1f2937;
+    }
+
+    h1 {
+      text-align: center;
+      color: #4f46e5;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 2rem auto;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    label {
+      display: block;
+      margin: 1rem 0 0.25rem;
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #4f46e5;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #4338ca;
+    }
+
+    .status {
+      margin-top: 1rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Edit Business</h1>
+
+  <form id="edit-form">
+    <label for="name">Business Name</label>
+    <input type="text" id="name" required />
+
+    <label for="category">Category</label>
+    <input type="text" id="category" required />
+
+    <label for="description">Description</label>
+    <textarea id="description" rows="4" required></textarea>
+
+    <label for="contact">Contact Number</label>
+    <input type="text" id="contact" required />
+
+    <label for="imageUrl">Image URL</label>
+    <input type="text" id="imageUrl" />
+
+    <label for="kyc">KYC Verified</label>
+    <select id="kyc">
+      <option value="true">✅ Yes</option>
+      <option value="false">❌ No</option>
+    </select>
+
+    <button type="submit">Update Business</button>
+
+    <div class="status" id="status"></div>
+  </form>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBfIlfxeHGvAvN2mGk_vZbBRoG4iufi4g4",
+      authDomain: "justdial-d6b67.firebaseapp.com",
+      projectId: "justdial-d6b67",
+      storageBucket: "justdial-d6b67.appspot.com",
+      messagingSenderId: "1047591955834",
+      appId: "1:1047591955834:web:5d7a93b4b9459a69003ac3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const businessId = urlParams.get("id");
+    const statusDiv = document.getElementById("status");
+
+    if (!businessId) {
+      statusDiv.textContent = "❌ Invalid business ID in URL.";
+      document.getElementById("edit-form").style.display = "none";
+    }
+
+    const nameInput = document.getElementById("name");
+    const categoryInput = document.getElementById("category");
+    const descInput = document.getElementById("description");
+    const contactInput = document.getElementById("contact");
+    const imageUrlInput = document.getElementById("imageUrl");
+    const kycInput = document.getElementById("kyc");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "/login.html";
+        return;
+      }
+
+      const businessRef = doc(db, "businesses", businessId);
+      const businessSnap = await getDoc(businessRef);
+
+      if (!businessSnap.exists()) {
+        statusDiv.textContent = "❌ Business not found.";
+        return;
+      }
+
+      const data = businessSnap.data();
+      nameInput.value = data.name || "";
+      categoryInput.value = data.category || "";
+      descInput.value = data.description || "";
+      contactInput.value = data.contact || "";
+      imageUrlInput.value = data.imageUrl || "";
+      kycInput.value = data.kycVerified ? "true" : "false";
+    });
+
+    document.getElementById("edit-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const updatedData = {
+        name: nameInput.value.trim(),
+        category: categoryInput.value.trim(),
+        description: descInput.value.trim(),
+        contact: contactInput.value.trim(),
+        imageUrl: imageUrlInput.value.trim(),
+        kycVerified: kycInput.value === "true"
+      };
+
+      try {
+        const businessRef = doc(db, "businesses", businessId);
+        await updateDoc(businessRef, updatedData);
+        statusDiv.textContent = "✅ Business updated successfully!";
+      } catch (error) {
+        console.error(error);
+        statusDiv.textContent = "❌ Failed to update business.";
+      }
+    });
+  </script>
+</body>
+</html>
